@@ -1,0 +1,20 @@
+// Declaración de variables
+Saldano int x = 20;
+Saldano int y = 5;
+Saldano string saludo = "Hola Mundo";
+
+// Operaciones
+Saldano int suma = x + y;
+
+// Impresión de resultados
+print(saludo);
+print(suma);
+
+// Condicional
+if(x > y) {
+    print(x);
+    print("es mayor");
+} else {
+    print(y);
+    print("es mayor");
+}

@@ -1,25 +1,32 @@
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 public class Main {
-    public static void main(String[] args) throws Exception {
-        //cambiar la ruta según el codigo que se desea ejecutar (parsear)
-        String filePath = "src/olmosTypes/calculadora.olmos";
+    public static void main(String[] args) {
+        try {
+            // Leer el archivo de entrada
+            String inputFile = "src/test.olmos"; // Asegúrate de que este archivo esté en tu carpeta de proyecto
+            String input = new String(Files.readAllBytes(Paths.get(inputFile)));
 
-        String code = new String(Files.readAllBytes(Paths.get(filePath)));
+            // Crear el Lexer
+            OlmosSimpleLexer lexer = new OlmosSimpleLexer(CharStreams.fromString(input));
+            CommonTokenStream tokens = new CommonTokenStream(lexer);
 
-        OlmosTypesLexer lexer = new OlmosTypesLexer(CharStreams.fromString(code));
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        OlmosTypesParser parser = new OlmosTypesParser(tokens);
+            // Crear el Parser
+            OlmosSimpleParser parser = new OlmosSimpleParser(tokens);
 
-        ParseTree tree = parser.program(); // Cambia 'program' si tu regla inicial es diferente
+            // Analizar el archivo y construir el árbol
+            ParseTree tree = parser.program();
 
-        System.out.println("Árbol Sintáctico: ");
-        System.out.println(tree.toStringTree(parser));
+            // Usar un Visitor personalizado para interpretar el código
+            OlmosCustomSimpleVisitor visitor = new OlmosCustomSimpleVisitor();
+            visitor.visit(tree);
 
-        OlmosTypesCustomVisitor visitor = new OlmosTypesCustomVisitor();
-        visitor.visit(tree);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
