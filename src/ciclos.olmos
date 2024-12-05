@@ -1,0 +1,5 @@
+saldanoInt i=0;
+nachoWhile (i < 4) {
+    print(i);
+    i = i + 1;
+}

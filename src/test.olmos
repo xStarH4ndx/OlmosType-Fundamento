@@ -1,20 +1,14 @@
 // Declaración de variables
-Saldano int x = 20;
-Saldano int y = 5;
-Saldano string saludo = "Hola Mundo";
-
-// Operaciones
-Saldano int suma = x + y;
-
-// Impresión de resultados
-print(saludo);
-print(suma);
+saldanoInt x = 20;
+saldanoInt y = 5;
+saldanoInt z = 23;
+saldanoString saludo = "Hola Mundo";
 
 // Condicional
-if(x > y) {
-    print(x);
-    print("es mayor");
-} else {
-    print(y);
-    print("es mayor");
+pan(z > x){
+    print("z es mayor que x: " + x);
+}queso pan(z > y){
+    print("z es mayor que y: " + y);
+}queso{
+    print("z es menor");
 }

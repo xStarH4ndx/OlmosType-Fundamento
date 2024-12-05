@@ -47,15 +47,45 @@ public interface OlmosSimpleListener extends ParseTreeListener {
 	 */
 	void exitType(OlmosSimpleParser.TypeContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link OlmosSimpleParser#ifStatement}.
+	 * Enter a parse tree produced by {@link OlmosSimpleParser#conditionalStatement}.
 	 * @param ctx the parse tree
 	 */
-	void enterIfStatement(OlmosSimpleParser.IfStatementContext ctx);
+	void enterConditionalStatement(OlmosSimpleParser.ConditionalStatementContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link OlmosSimpleParser#ifStatement}.
+	 * Exit a parse tree produced by {@link OlmosSimpleParser#conditionalStatement}.
 	 * @param ctx the parse tree
 	 */
-	void exitIfStatement(OlmosSimpleParser.IfStatementContext ctx);
+	void exitConditionalStatement(OlmosSimpleParser.ConditionalStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link OlmosSimpleParser#whileLoop}.
+	 * @param ctx the parse tree
+	 */
+	void enterWhileLoop(OlmosSimpleParser.WhileLoopContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link OlmosSimpleParser#whileLoop}.
+	 * @param ctx the parse tree
+	 */
+	void exitWhileLoop(OlmosSimpleParser.WhileLoopContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link OlmosSimpleParser#forLoop}.
+	 * @param ctx the parse tree
+	 */
+	void enterForLoop(OlmosSimpleParser.ForLoopContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link OlmosSimpleParser#forLoop}.
+	 * @param ctx the parse tree
+	 */
+	void exitForLoop(OlmosSimpleParser.ForLoopContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link OlmosSimpleParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void enterBlock(OlmosSimpleParser.BlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link OlmosSimpleParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void exitBlock(OlmosSimpleParser.BlockContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link OlmosSimpleParser#printStatement}.
 	 * @param ctx the parse tree

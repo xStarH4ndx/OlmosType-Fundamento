@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             // Leer el archivo de entrada
-            String inputFile = "src/test.olmos"; // Asegúrate de que este archivo esté en tu carpeta de proyecto
+            String inputFile = "src/ciclos.olmos"; // Asegúrate de que este archivo esté en tu carpeta de proyecto
             String input = new String(Files.readAllBytes(Paths.get(inputFile)));
 
             // Crear el Lexer
@@ -18,7 +18,7 @@ public class Main {
             // Crear el Parser
             OlmosSimpleParser parser = new OlmosSimpleParser(tokens);
 
-            // Analizar el archivo y construir el árbol
+            // Analizar el archivo y construir el árbol (AST)
             ParseTree tree = parser.program();
 
             // Usar un Visitor personalizado para interpretar el código

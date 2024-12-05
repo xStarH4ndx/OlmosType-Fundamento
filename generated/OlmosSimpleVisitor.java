@@ -34,11 +34,29 @@ public interface OlmosSimpleVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitType(OlmosSimpleParser.TypeContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link OlmosSimpleParser#ifStatement}.
+	 * Visit a parse tree produced by {@link OlmosSimpleParser#conditionalStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIfStatement(OlmosSimpleParser.IfStatementContext ctx);
+	T visitConditionalStatement(OlmosSimpleParser.ConditionalStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link OlmosSimpleParser#whileLoop}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWhileLoop(OlmosSimpleParser.WhileLoopContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link OlmosSimpleParser#forLoop}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitForLoop(OlmosSimpleParser.ForLoopContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link OlmosSimpleParser#block}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBlock(OlmosSimpleParser.BlockContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link OlmosSimpleParser#printStatement}.
 	 * @param ctx the parse tree
