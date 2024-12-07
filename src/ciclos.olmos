@@ -1,5 +1,6 @@
-saldanoInt i=0;
-nachoWhile (i < 4) {
-    print(i);
-    i = i + 1;
+saldanoInt cont= 0;
+
+nachoWhile(cont<4){
+    print(cont);
+    cont= cont + 1;
 }

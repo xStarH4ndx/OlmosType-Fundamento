@@ -87,24 +87,22 @@ public class OlmosCustomSimpleVisitor extends OlmosSimpleBaseVisitor<Object> {
         return null;
     }
 
+    // Condiciones
     @Override
     public Object visitCondition(OlmosSimpleParser.ConditionContext ctx) {
         Object left = visit(ctx.expression(0));
         Object right = visit(ctx.expression(1));
         String operator = ctx.comparisonOp().getText();
-
-        // Compara de acuerdo al operador
         return switch (operator) {
             case "==" -> left.equals(right);
             case "!=" -> !left.equals(right);
-            case ">" -> ((Integer) left) > ((Integer) right);
-            case "<" -> ((Integer) left) < ((Integer) right);
-            case ">=" -> ((Integer) left) >= ((Integer) right);
-            case "<=" -> ((Integer) left) <= ((Integer) right);
+            case ">" -> (int) left > (int) right;
+            case "<" -> (int) left < (int) right;
+            case ">=" -> (int) left >= (int) right;
+            case "<=" -> (int) left <= (int) right;
             default -> throw new UnsupportedOperationException("Unsupported operator: " + operator);
         };
     }
-
 
     // Condicionales (pan, queso pan, queso)
     @Override
@@ -130,39 +128,23 @@ public class OlmosCustomSimpleVisitor extends OlmosSimpleBaseVisitor<Object> {
         return null;
     }
 
+    // Ciclo while
     @Override
     public Object visitWhileLoop(OlmosSimpleParser.WhileLoopContext ctx) {
-        // Evaluar la condición
-        Object conditionResult = visit(ctx.condition());
-        // Verificar si la condición es booleana
-        if (conditionResult instanceof Boolean && (Boolean) conditionResult) {
-            // Ejecutar el bloque mientras la condición sea verdadera
-            while ((Boolean) conditionResult) {
-                visit(ctx.block()); // Ejecuta el bloque dentro del ciclo
-                // Re-evaluar la condición después de cada ciclo
-                conditionResult = visit(ctx.condition()); // Volver a evaluar la condición
-            }
+        while ((boolean) visit(ctx.condition())) {
+            visit(ctx.block());
         }
         return null;
     }
 
-
-
+    // Ciclo for
     @Override
     public Object visitForLoop(OlmosSimpleParser.ForLoopContext ctx) {
-        // Inicialización (declaración de la variable)
-        visit(ctx.variableDeclaration());
-
-        // Condición del ciclo (evaluada antes de cada iteración)
-        while ((boolean) visit(ctx.condition())) {
-            // Ejecutar el bloque dentro del ciclo
+        visit(ctx.variableDeclaration()); // Inicialización
+        while ((boolean) visit(ctx.condition())) { // Condición
             visit(ctx.block());
-
-            // Actualización (incremento o modificación de la variable)
-            visit(ctx.expression()); // Esta debería ser la actualización, es decir, el incremento de la variable.
+            visit(ctx.expression()); // Incremento
         }
         return null;
     }
-
-
 }

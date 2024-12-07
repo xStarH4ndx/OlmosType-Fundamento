@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             // Leer el archivo de entrada
-            String inputFile = "src/ciclos.olmos"; // Asegúrate de que este archivo esté en tu carpeta de proyecto
+            String inputFile = "src/test.olmos"; // Asegúrate de que este archivo esté en tu carpeta de proyecto
             String input = new String(Files.readAllBytes(Paths.get(inputFile)));
 
             // Crear el Lexer
