@@ -27,22 +27,40 @@ public class OlmosCustomSimpleVisitor extends OlmosSimpleBaseVisitor<Object> {
         return null;
     }
 
-    // Expresiones
+    // Asignaciones
     @Override
-    public Object visitExpression(OlmosSimpleParser.ExpressionContext ctx) {
-        if (ctx.term().size() == 1) {
-            return visit(ctx.term(0));
-        }
-        Object left = visit(ctx.term(0));
-        Object right = visit(ctx.term(1));
-        String operator = ctx.getChild(1).getText();
+    public Object visitAssignmentExpression(OlmosSimpleParser.AssignmentExpressionContext ctx) {
+        String varName = ctx.ID().getText();
+        Object value = visit(ctx.expression());
+        variables.put(varName, value);
+        return value;
+    }
 
-        if ("+".equals(operator)) {
-            return left.toString() + right.toString();
-        }
+    // Operaciones aditivas (+, -)
+    @Override
+    public Object visitAdditiveExpression(OlmosSimpleParser.AdditiveExpressionContext ctx) {
+        Object left = visit(ctx.expression(0));
+        Object right = visit(ctx.expression(1));
+        String operator = ctx.op.getText();
         return performOperation(left, right, operator);
     }
 
+    // Operaciones multiplicativas (*, /, %)
+    @Override
+    public Object visitMultiplicativeExpression(OlmosSimpleParser.MultiplicativeExpressionContext ctx) {
+        Object left = visit(ctx.expression(0));
+        Object right = visit(ctx.expression(1));
+        String operator = ctx.op.getText();
+        return performOperation(left, right, operator);
+    }
+
+    // Términos
+    @Override
+    public Object visitTermExpression(OlmosSimpleParser.TermExpressionContext ctx) {
+        return visit(ctx.term());
+    }
+
+    // Realiza las operaciones aritméticas
     private Object performOperation(Object left, Object right, String operator) {
         if (left instanceof Integer && right instanceof Integer) {
             int leftInt = (int) left;
@@ -55,17 +73,6 @@ public class OlmosCustomSimpleVisitor extends OlmosSimpleBaseVisitor<Object> {
                 case "%" -> leftInt % rightInt;
                 default -> throw new UnsupportedOperationException("Unsupported operator: " + operator);
             };
-        } else if (left instanceof Double && right instanceof Double) {
-            double leftDouble = (double) left;
-            double rightDouble = (double) right;
-            return switch (operator) {
-                case "+" -> leftDouble + rightDouble;
-                case "-" -> leftDouble - rightDouble;
-                case "*" -> leftDouble * rightDouble;
-                case "/" -> leftDouble / rightDouble;
-                case "%" -> leftDouble % rightDouble;
-                default -> throw new UnsupportedOperationException("Unsupported operator: " + operator);
-            };
         }
         return null;
     }
@@ -74,15 +81,15 @@ public class OlmosCustomSimpleVisitor extends OlmosSimpleBaseVisitor<Object> {
     public Object visitTerm(OlmosSimpleParser.TermContext ctx) {
         if (ctx.ID() != null) {
             String varName = ctx.ID().getText();
-            if (variables.containsKey(varName)) {
-                return variables.get(varName);
-            }
+            return variables.getOrDefault(varName, 0);
         } else if (ctx.NUMBER() != null) {
             return Integer.parseInt(ctx.NUMBER().getText());
         } else if (ctx.DOUBLE() != null) {
             return Double.parseDouble(ctx.DOUBLE().getText());
         } else if (ctx.STRING() != null) {
             return ctx.STRING().getText().replace("\"", "");
+        } else if (ctx.expression() != null) {
+            return visit(ctx.expression());
         }
         return null;
     }
@@ -96,10 +103,10 @@ public class OlmosCustomSimpleVisitor extends OlmosSimpleBaseVisitor<Object> {
         return switch (operator) {
             case "==" -> left.equals(right);
             case "!=" -> !left.equals(right);
-            case ">" -> (int) left > (int) right;
-            case "<" -> (int) left < (int) right;
-            case ">=" -> (int) left >= (int) right;
-            case "<=" -> (int) left <= (int) right;
+            case ">" -> ((Integer) left) > ((Integer) right);
+            case "<" -> ((Integer) left) < ((Integer) right);
+            case ">=" -> ((Integer) left) >= ((Integer) right);
+            case "<=" -> ((Integer) left) <= ((Integer) right);
             default -> throw new UnsupportedOperationException("Unsupported operator: " + operator);
         };
     }
@@ -141,9 +148,9 @@ public class OlmosCustomSimpleVisitor extends OlmosSimpleBaseVisitor<Object> {
     @Override
     public Object visitForLoop(OlmosSimpleParser.ForLoopContext ctx) {
         visit(ctx.variableDeclaration()); // Inicialización
-        while ((boolean) visit(ctx.condition())) { // Condición
-            visit(ctx.block());
-            visit(ctx.expression()); // Incremento
+        while ((boolean) visit(ctx.condition())) {
+            visit(ctx.block()); // Bloque dentro del ciclo
+            visit(ctx.expression()); // Actualización (incremento de la variable)
         }
         return null;
     }

@@ -76,11 +76,33 @@ public interface OlmosSimpleVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitComparisonOp(OlmosSimpleParser.ComparisonOpContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link OlmosSimpleParser#expression}.
+	 * Visit a parse tree produced by the {@code AdditiveExpression}
+	 * labeled alternative in {@link OlmosSimpleParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpression(OlmosSimpleParser.ExpressionContext ctx);
+	T visitAdditiveExpression(OlmosSimpleParser.AdditiveExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code AssignmentExpression}
+	 * labeled alternative in {@link OlmosSimpleParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAssignmentExpression(OlmosSimpleParser.AssignmentExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code TermExpression}
+	 * labeled alternative in {@link OlmosSimpleParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTermExpression(OlmosSimpleParser.TermExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code MultiplicativeExpression}
+	 * labeled alternative in {@link OlmosSimpleParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMultiplicativeExpression(OlmosSimpleParser.MultiplicativeExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link OlmosSimpleParser#term}.
 	 * @param ctx the parse tree
